@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- ========== Title ========== -->
+    <title>Add User</title>
+    <!-- ========== Meta Tags ========== -->
+    <meta name="description" content="Revent -Event Html Template">
+    <meta name="keywords" content="Revent , Event , Html, Template">
+    <meta name="author" content="ColorLib">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- ========== Favicon Ico ========== -->
+    <!--<link rel="icon" href="fav.ico">-->
+    <!-- ========== STYLESHEETS ========== -->
+    <!-- Bootstrap CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts Icon CSS -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/et-line.css" rel="stylesheet">
+    <link href="/css/ionicons.min.css" rel="stylesheet">
+    <!-- Carousel CSS -->
+    <link href="/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="/css/owl.theme.default.min.css" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <!-- Custom styles for this template -->
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="loader">
+    <div class="loader-outter"></div>
+    <div class="loader-inner"></div>
+</div>
+<!--header start here -->
+<header class="header navbar fixed-top navbar-expand-md sticky_header">
+    <div class="container">
+        <a class="navbar-brand logo" href="/home">
+            <img src="/img/logo.png" alt="Revent">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headernav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="lnr lnr-text-align-right"></span>
+        </button>
+        <div class="collapse navbar-collapse flex-sm-row-reverse" id="headernav">
+            <ul class=" nav navbar-nav menu">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home">Home</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('EDITOR')">
+                    <a class="nav-link " href="/create">Create events</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('VIEWER')">
+                    <a class="nav-link " href="/browse">Browse events</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('MODERATOR')">
+                    <a class="nav-link " href="/manage">Manage users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/contact">Contact</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link " href="/profile">Profile</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link " href="/logout">logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+<!--header end here-->
+
+    <!--page title section-->
+    <section class="inner_cover parallax-window" data-parallax="scroll" style="background-image: url('/img/events/event1.png');">
+        <div class="overlay_dark"></div>
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-12">
+                    <div class="inner_cover_content">
+                        <h3>
+                            <span>Add event</span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="breadcrumbs">
+                <ul>
+                    <li><a href="/home">Home</a>   |  </li>
+                    <li><span>Add event</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!--page title section end-->
+
+    <section class="pt50 pb50 pr50 pl50" >
+        <div class="align-content-center">
+            <form action="/addevent" th:action="@{/addevent}" th:object="${event}" method="post">
+                <h1>New event</h1>
+
+                <div class="form-row">
+                    <div><h2>Title</h2></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col"><label>Event title</label>
+                        <input class="form-control" type="text" th:field="*{eventTitle}" placeholder="Title"></div>
+                </div>
+
+                <div class="form-row">
+                    <div><h2>Location</h2></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col"><label>City</label>
+                        <input class="form-control" type="text" th:field="*{city}" placeholder="City"></div>
+                    <div class="col"><label>Region</label>
+                        <input class="form-control" type="text" th:field="*{region}" placeholder="Region"></div>
+                    <div class="col"><label>Zip Code</label>
+                        <input class="form-control" type="text" th:field="*{zipCode}" placeholder="Zip code"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col"><label>additional details</label>
+                        <input class="form-control" type="text" th:field="*{otherAddressInformation}" placeholder="Street, Building, ..."></div>
+                </div>
+
+                <div class="form-row">
+                    <div><h2>Date</h2></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col"><label>From</label>
+                        <input class="form-control" type="date" th:field="*{startDate}" placeholder="mm/dd/yyyy"></div>
+                    <div class="col"><label>To</label>
+                        <input class="form-control" type="date" th:field="*{endDate}" placeholder="mm/dd/yyyy"></div>
+                </div>
+
+                <div class="form-row">
+                    <div><h2>Additional informations</h2></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col"><label>Category</label>
+                        <select class="btn btn-secondary dropdown-toggle" type="button" th:field="*{eventType}" name="Choose a category">
+                            <option class="dropdown-item" type="text"  th:value="music">Music</option>
+                            <option class="dropdown-item" type="text"  th:value="education">Education</option>
+                            <option class="dropdown-item" type="text"  th:value="business">Business</option>
+                            <option class="dropdown-item" type="text"  th:value="entertainment">Entertainment</option>
+                            <option class="dropdown-item" type="text"  th:value="conference">Conference & press</option>
+                            <option class="dropdown-item" type="text"  th:value="club">Club activity</option>
+                            <option class="dropdown-item" type="text"  th:value="other" th:selected>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col"><label>Event description</label>
+                        <textarea class="form-control" rows="100" cols="800" type="text" th:field="*{description}" placeholder="description"></textarea>
+                    </div>
+                </div>
+
+                <div class="align-content-center">
+                    <div class="row">
+                        <div class="col" style="text-align: center">
+                            <input type="submit" class="btn btn-primary" value="Confirm">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-md-4 col-12">
+                    <div class="footer_box">
+                        <div class="footer_header">
+                            <div class="footer_logo">
+                                <img src="/img/logo.png" alt="revent">
+                            </div>
+                        </div>
+                        <div class="footer_box_body">
+                            <p>
+                                Revent is a simple yet effective and inovative approach to event managment.
+                                Create your account now and choose the plan that suits you best, be it the free to use viewer or the allmighty moderator the choice is yours!
+                            </p>
+                            <ul class="footer_social">
+
+                                <li>
+                                    <a href="#"><i class="ion-social-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-social-twitter"></i></a>
+                                </li>
+
+                                <li>
+                                    <a href="#"><i class="ion-social-instagram"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="footer_box">
+                        <div class="footer_header">
+                            <h4 class="footer_title">
+                                instagram
+                            </h4>
+                        </div>
+                        <div class="footer_box_body">
+                            <ul class="instagram_list">
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c1.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c2.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c3.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c3.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c2.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c1.png" alt="instagram">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+
+                    <div class="footer_box">
+                        <div class="footer_header">
+                            <div class="footer_logo">
+                                <img src="/img/ensias.png" alt="ensias" style="padding-left: 50px;">
+                            </div>
+                        </div>
+                        <div class="footer_box_body">
+                            <p>
+                                L’École nationale supérieure d’informatique et d’analyse des systèmes (ENSIAS Rabat) est l’une des grandes écoles d’ingénieurs marocaines rattachée à l’université Mohammed V – Souissi de Rabat.
+                            </p>
+                            <a href="https://www.ensias.ma"><i class="ion-planet"></i></a>
+                        </div>
+                    </div></div>
+            </div>
+        </div>
+    </footer>
+    <div class="copyright_footer">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-12">
+                    <p>
+                        Copyright ©<script>document.write(new Date().getFullYear());</script> All rights reserved
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 ">
+                    <ul class="footer_menu">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/contact">Contact</a>
+                        </li>
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jquery -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <script src="/js/popper.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/waypoints.min.js"></script>
+    <!--slick carousel -->
+    <script src="/js/owl.carousel.min.js"></script>
+    <!--parallax -->
+    <script src="/js/parallax.min.js"></script>
+    <!--Counter up -->
+    <script src="/js/jquery.counterup.min.js"></script>
+    <!--Counter down -->
+    <script src="/js/jquery.countdown.min.js"></script>
+    <!-- WOW JS -->
+    <script src="/js/wow.min.js"></script>
+    <!-- Custom js -->
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

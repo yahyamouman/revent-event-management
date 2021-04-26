@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- ========== Meta Tags ========== -->
+    <meta charset="UTF-8">
+    <meta name="description" content="Revent -Event managment">
+    <meta name="keywords" content="Revent , Event , Managment, Browsing">
+    <meta name="author" content="Revent Team">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- ========== Title ========== -->
+    <title> Revent </title>
+    <!-- ========== Favicon Ico ========== -->
+    <!--<link rel="icon" href="fav.ico">-->
+    <!-- ========== STYLESHEETS ========== -->
+    <!-- Bootstrap CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts Icon CSS -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/et-line.css" rel="stylesheet">
+    <link href="/css/ionicons.min.css" rel="stylesheet">
+    <!-- Carousel CSS -->
+    <link href="/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="/css/owl.theme.default.min.css" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <!-- Custom styles for this template -->
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="parallax-mirror" style="visibility: hidden; z-index: -100; position: fixed; top: -389px; left: 0px; overflow: hidden; transform: translate3d(0px, 0px, 0px); height: 427px; width: 1349px;"><img class="parallax-slider" src="assets/img/bg/bg-img.png" style="transform: translate3d(0px, 0px, 0px); position: absolute; top: 232.2px; left: 0px; height: 585px; width: 1349px; max-width: none;"></div>
+    <div class="loader">
+        <div class="loader-outter"></div>
+        <div class="loader-inner"></div>
+    </div>
+    <!--header start here -->
+    <header class="header navbar fixed-top navbar-expand-md sticky_header">
+        <div class="container">
+            <a class="navbar-brand logo" href="/">
+                <img src="/img/logo.png" alt="Revent">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headernav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="lnr lnr-text-align-right"></span>
+            </button>
+            <div class="collapse navbar-collapse flex-sm-row-reverse" id="headernav">
+                <ul class=" nav navbar-nav menu">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('EDITOR')">
+                        <a class="nav-link " href="/create">Create events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/browse">Browse events</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('MODERATOR')">
+                        <a class="nav-link " href="/manage">Manage users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/home">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/signup">Register</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link " href="/logout">logout</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link " href="/profile">Profile</a>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!--header end here-->
+
+
+
+    <!--page title section-->
+    <section class="inner_cover parallax-window" data-parallax="scroll" data-image-src="/img/bg/bg-img.png">
+        <div class="overlay_dark"></div>
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-12">
+                    <div class="inner_cover_content">
+                        <h3>
+                            Browse events (<span th:text="${size}">0</span>)
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="breadcrumbs">
+                <ul>
+                    <li><a href="/home">Home</a>   |  </li>
+                    <li><span>Browse events</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!--page title section end-->
+
+
+    <!--events section -->
+    <section class="pt100 pb100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <!--blog section start -->
+                <div class="col-12 col-md-8">
+                    <div class="blog_card" th:each="event : ${events}">
+
+                        <img th:src="@{/img/event/{image}(image=${event.thumbnailName})}"  alt="blog News ">
+                        <div class="blog_box_data">
+
+                            <h4><span th:text="${event.eventTitle}" class="event_title" th:href="@{/event/{eventId}/page(eventId=${event.eventId})}">Event Title</span></h4>
+
+                            <span th:text="${event.startDate}" class="blog_date">startDate</span><span class="blog_date">To :</span><span th:text="${event.endDate}" class="blog_date">endDate</span>
+
+                            <h5>Organizer : <span th:text="${event.organizer.username}">Organizer</span></h5>
+                            <h6><span th:text="${event.city}">Organizer</span></h6>
+
+                            <p th:text="${event.description}" class="blog_word">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec gravida tempus. Integer iaculis in lacus a sollicitudin. Ut hendrerit hendrerit nisl a accumsan. Pellentesque convallis consectetur tortor id placerat. Curabitur a pulvinar nunc. Maecenas laoreet finibus lectus, at volutpat ligula euismod.
+                            </p>
+
+                            <a th:href="@{/event/{eventId}/page(eventId=${event.eventId})}" class="btn btn-secondary">View event</a>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <!--pagenition menu-->
+                    <nav aria-label="Pagination" th:if="${events.totalPages gt 0}">
+                        <ul class="pagination justify-content-center font-weight-bold">
+                            <li class="page-item" th:classappend="${events.number eq 0} ? 'disabled'">
+                                <a class="page-link"
+                                   style=
+                                           "color: #fff;
+                                       background-color: #f50136;"
+                                   th:href="@{/browse?page={id}(id=${events.number lt 2 ? 1 : events.number})}"
+                                   aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:classappend="${i eq events.number + 1} ? 'active'"
+                                th:each="i : ${#numbers.sequence( 1, events.totalPages, 1)}">
+                                <a class="page-link"
+                                   style=
+                                           "color: #fff;
+                                     background-color: #f50136;"
+                                   th:href="@{/browse?page={id}(id=${i})}" th:text="${i}"
+                                   th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                            </li>
+                            <li class="page-item" th:classappend="${events.number + 1 eq events.totalPages} ? 'disabled'">
+                                <a class="page-link"
+                                   style=
+                                           "color: #fff;
+                                       background-color: #f50136;"
+                                   th:href="@{/browse?page={id}(id=${events.number + 2})}"
+                                   aria-label="Next" title="Next Page" data-toggle="tooltip">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!--pageintion -->
+
+                </div>
+                <!--blog section end-->
+
+                <!--sidebar section -->
+                <div class="col-12 col-md-4">
+                    <div class="sidebar">
+                        <div class="widget widget_search">
+                            <form class="search-form" th:action="@{/browse}" method="get">
+                                <input type="text" class="search-field" placeholder="Search" name="keyword">
+                                <button class="btn btn-secondary" type="submit">Go</button>
+                            </form>
+                        </div>
+
+                        <div class="widget widget_categories">
+                            <h4 class="widget-title">
+                                Categories
+                            </h4>
+                            <ul>
+                                <li><a href="/browse?type=music" >Music</a></li>
+                                <li><a href="/browse?type=education" >Education</a></li>
+                                <li><a href="/browse?type=business" >Business</a></li>
+                                <li><a href="/browse?type=entertainment" >Entertainment</a></li>
+                                <li><a href="/browse?type=conference" >Conference &amp; Press</a></li>
+                                <li><a href="/browse?type=club" >Club Activity</a></li>
+                                <li><a href="/browse?type=other" >Other</a></li>
+                                <li><a href="/browse">All</a></li>
+                            </ul>
+                        </div>
+
+
+
+
+                        <div class="widget widget_tags">
+                            <h4 class="widget-title">
+                                Tags
+                            </h4>
+                            <ul>
+                                <li><a href="#">branding</a></li>
+                                <li><a href="#">identity</a></li>
+                                <li><a href="#">design</a></li>
+                                <li><a href="#">inspiration</a></li>
+                                <li><a href="#">web design</a></li>
+                                <li><a href="#">video</a></li>
+                                <li><a href="#">photography</a></li>
+                            </ul>
+                        </div>
+                        <div class="widget widget_latest_post">
+                            <h4 class="widget-title">
+                                Latest Events
+                            </h4>
+                            <ul>
+                                <li th:each="event : ${all}">
+                                    <div class="widget_recent_posts">
+                                        <img th:href="@{/event/{eventId}/page(eventId=${event.eventId})}" th:src="@{/img/event/{image}(image=${event.thumbnailName})}" alt="news">
+                                        <div class="content">
+                                            <a th:href="@{/event/{eventId}/page(eventId=${event.eventId})}"><span th:text="${event.eventTitle}"></span></a>
+                                            <p>by <span th:text="${event.organizer.username}"></span> / <span th:text="${event.startDate}"></span></p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!--sidebar section end -->
+
+            </div>
+        </div>
+    </section>
+    <!--event section end -->
+
+
+
+    <!--get tickets section -->
+    <section class="bg-img pt100 pb100" style="background-image: url('/img/bg/tickets.png');">
+        <div class="container">
+            <!--empty container -->
+        </div>
+    </section>
+    <!--get tickets section end-->
+
+    <footer>
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-md-4 col-12">
+                    <div class="footer_box">
+                        <div class="footer_header">
+                            <div class="footer_logo">
+                                <img src="/img/logo.png" alt="revent">
+                            </div>
+                        </div>
+                        <div class="footer_box_body">
+                            <p>
+                                Revent is a simple yet effective and inovative approach to event managment.
+                                Create your account now and choose the plan that suits you best, be it the free to use viewer or the allmighty moderator the choice is yours!
+                            </p>
+                            <ul class="footer_social">
+
+                                <li>
+                                    <a href="#"><i class="ion-social-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-social-twitter"></i></a>
+                                </li>
+
+                                <li>
+                                    <a href="#"><i class="ion-social-instagram"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="footer_box">
+                        <div class="footer_header">
+                            <h4 class="footer_title">
+                                instagram
+                            </h4>
+                        </div>
+                        <div class="footer_box_body">
+                            <ul class="instagram_list">
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c1.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c2.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c3.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c3.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c2.png" alt="instagram">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/img/cleander/c1.png" alt="instagram">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+
+                    <div class="footer_box">
+                        <div class="footer_header">
+                            <div class="footer_logo">
+                                <img src="/img/ensias.png" alt="ensias" style="padding-left: 50px;">
+                            </div>
+                        </div>
+                        <div class="footer_box_body">
+                            <p>
+                                L’École nationale supérieure d’informatique et d’analyse des systèmes (ENSIAS Rabat) est l’une des grandes écoles d’ingénieurs marocaines rattachée à l’université Mohammed V – Souissi de Rabat.
+                            </p>
+                            <a href="https://www.ensias.ma"><i class="ion-planet"></i></a>
+                        </div>
+                    </div></div>
+            </div>
+        </div>
+    </footer>
+    <div class="copyright_footer">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-12">
+                    <p>
+                        Copyright ©<script>document.write(new Date().getFullYear());</script> All rights reserved
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 ">
+                    <ul class="footer_menu">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/contact">Contact</a>
+                        </li>
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jquery -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <script src="/js/popper.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/waypoints.min.js"></script>
+    <!--slick carousel -->
+    <script src="/js/owl.carousel.min.js"></script>
+    <!--parallax -->
+    <script src="/js/parallax.min.js"></script>
+    <!--Counter up -->
+    <script src="/js/jquery.counterup.min.js"></script>
+    <!--Counter down -->
+    <script src="/js/jquery.countdown.min.js"></script>
+    <!-- WOW JS -->
+    <script src="/js/wow.min.js"></script>
+    <!-- Custom js -->
+    <script src="/js/main.js"></script>
+</body>
+</html>
